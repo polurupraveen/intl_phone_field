@@ -194,6 +194,8 @@ class IntlPhoneField extends StatefulWidget {
   /// Defaults to [AutovalidateMode.onUserInteraction].
   final AutovalidateMode? autovalidateMode;
 
+  final ValueChanged<bool>? onValid;
+
   /// Whether to show or hide country flag.
   ///
   /// Default value is `true`.
@@ -262,6 +264,7 @@ class IntlPhoneField extends StatefulWidget {
     this.dropdownTextStyle,
     this.onSubmitted,
     this.validator,
+    this.onValid,
     this.onChanged,
     this.countries,
     this.onCountryChanged,
@@ -422,6 +425,10 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
           return value.length >= _selectedCountry.minLength && value.length <= _selectedCountry.maxLength
               ? null
               : widget.invalidNumberMessage;
+        }
+
+        if (widget.onValid != null) {
+          widget.onValid!(validatorMessage == null);
         }
 
         return validatorMessage;
